@@ -1,8 +1,3 @@
 # Fluttination
 
-## Requirements
-	- [vscode](https://code.visualstudio.com/download)
-	- [Dev Container vscode extensions](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-
-## Getting started
-TODO: Write setup
+This repository was created for the lecture "Entwicklung von Web-Anwendungen" and contains all necessary materials and exercises that are done during the lecture.
