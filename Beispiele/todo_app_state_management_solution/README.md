@@ -1,16 +1,5 @@
-# todo_app_state_management_solution
+# State Management Basic: Lifting State Up / Propdrilling - LÖSUNG
 
-A new Flutter project.
+Die Lösung zu dem gezeigten Beispiel `State Management Basic: Lifting State Up / Propdrilling`.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Das Beispiel soll veranschaulichen, wie man mit State umgehen soll wenn er an mehreren Stellen benötigt wird. Besonders interresant wird es, wenn Widgets den State benötigen, welche nicht untereinander Angeordnet sind (im WidgetTree) sondern nur ein (entferntes) gemeinesames Parent Widget haben.
