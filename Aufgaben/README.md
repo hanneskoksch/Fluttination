@@ -24,6 +24,6 @@ Lösung: [`state_management_solution`](./state_management_solution/)
 
 ### 4. Aufgabe: Packages & Routing
 
-Ausgangsprojekt: [`routing`](README.md)
+Ausgangsprojekt: [`routing`](./routing/)
 
-Lösung: [`routing_solution`](README.md)
+Lösung: [`routing_solution`](./routing_solution/)
