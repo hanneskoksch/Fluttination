@@ -5,10 +5,11 @@ import 'package:state_management/models/geo_location.dart';
 import 'package:state_management/models/weather.dart';
 
 abstract class Api {
-  static const String _geoLocationsApiKey =
-      "pk.b18f75e0c3d492c64d08672c3534991b";
+// TODO: Replace with our API Key
+  static const String _geoLocationsApiKey = "";
 
-  static const String _weatherApiKey = "02daf6e0451ad802e5223ce9cf94162d";
+// TODO: Replace with our API Key
+  static const String _weatherApiKey = "";
 
   static Future<Weather> getWeather(GeoLocation location) async {
     final response = await http.get(Uri.parse(
