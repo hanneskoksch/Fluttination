@@ -32,6 +32,29 @@ abstract class Api {
     }
   }
 
+  static Future<Weather> getWeatherWithCoordinates(
+      double lat, double long) async {
+    final response = await http.get(Uri.parse(
+      "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$long&units=metric&appid=$_weatherApiKey",
+    ));
+
+    switch (response.statusCode) {
+      case 200:
+        break;
+      default:
+        throw Exception(
+          "Getting Weather for location (lat: $lat long: $long) failed. Response Code: ${response.statusCode}",
+        );
+    }
+
+    try {
+      final json = jsonDecode(response.body);
+      return Weather.fromJson(json: json);
+    } catch (e) {
+      throw Exception("Failed to decode response body; ${response.body}");
+    }
+  }
+
   static Future<List<GeoLocation>> getGeoLocations(String address) async {
     final response = await http.get(Uri.parse(
       "https://us1.locationiq.com/v1/autocomplete?tag=place%3Acity%2Cplace%3Atown%2Cplace%3Avillage&limit=5&accept-language=de&dedupe=1&key=$_geoLocationsApiKey&q=$address",
