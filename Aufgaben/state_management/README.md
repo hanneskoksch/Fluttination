@@ -83,20 +83,3 @@ Damit ihr seht, dass manche Dinge auch deutlich komplizierter sind als ggf. in a
 Wie du siehst, hat das [`AnimatedBackgroundImage`](./lib/widgets/animated_background_image.dart)-Widget keine Child- oder Children-Properties und rendert diese auch nicht. Es kann also nicht als Container für darüberliegende Widgets dienen, sondern muss auf gleicher Ebene verwendet werden. Das geht z. B. durch die richtige Positionierung im [Stack-Widget](https://api.flutter.dev/flutter/widgets/Stack-class.html).
 
 </details>
-
-<details>
-  <summary>Was übergebe ich dem Widget?</summary>
-
-Wie du siehst, nimmt das AnimatedBackgroundImage als Konstruktor Argument nur ein `Future<ImageProvider>?`. Wir haben bereits eine Art von ImageProvider in der ersten Aufgabe kennengelernt: Den `NetworkImage`-Provider. Wir nutzen diesmal aber den `AssetImage`-Provider, welches statt einer URL einen lokalen Pfad bekommt, welcher auf die Assets unseres Projekt zeigt. Dazu nutzen wir den getter `backgroundImage` des Weater.WeatherType.
-
-Doch wie konvertiert man den das `_weather`(-Future) in ein ImageProvider(-Future)? Mit dem `.then`! Wir müssen nur beachten dass unser `_weather`(-Future) auch null sein kann! Die Lösung ist also:
-`_weather?.then((weather) => AssetImage(weather.type.backgroundImage))`
-
-</details>
-
-<details>
-  <summary>Warum wird nichts angezeigt?</summary>
-
-In einem Stack werden standardmäßig den `children` keine festen `constraints` gegeben, welche sie einhalten müssen. Da unser AnimatedBackgroundImage-Widget aber keine eigene Größe definiert, wird es einfach so klein wie möglich - also so klein das es unsichtbar ist.
-
-Um das zu beheben, gibt es das `fit` property für einen Stack, welches steuert, wie nicht gelayoutete Widgets zu behandeln sind. Mit StackFit.expand sorgen wir dafür, dass unser Image so groß wie der Stack gerendert wird.</details>

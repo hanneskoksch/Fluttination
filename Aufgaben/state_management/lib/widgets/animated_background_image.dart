@@ -1,73 +1,65 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:state_management/models/weather.dart';
 
 class AnimatedBackgroundImage extends StatefulWidget {
   const AnimatedBackgroundImage({
     super.key,
-    required this.image,
-    this.blur = 2.5,
+    required this.weather,
     this.duration = const Duration(seconds: 1),
   });
 
-  final Future<ImageProvider>? image;
-  final double blur;
+  final Future<Weather>? weather;
   final Duration duration;
 
   @override
   State<AnimatedBackgroundImage> createState() =>
-      _AnimatedWeatherBackgroundState();
+      _AnimatedBackgroundImageState();
 }
 
-class _AnimatedWeatherBackgroundState extends State<AnimatedBackgroundImage> {
-  DecorationImage? _decoration;
+class _AnimatedBackgroundImageState extends State<AnimatedBackgroundImage> {
+  String? _asset;
 
   @override
   void initState() {
-    if (widget.image != null) {
-      widget.image?.then(_setDecorationImage);
-    }
-
     super.initState();
+    // Update the background image as soon as its loaded
+    if (widget.weather != null) {
+      widget.weather!.then(
+        (weather) => setState(() => _asset = weather.type.backgroundImage),
+      );
+    }
   }
 
   @override
   void didUpdateWidget(covariant AnimatedBackgroundImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // If we previously had an image but it changed to null,
-    // set the decoration image to null..
-    if (oldWidget.image != null && widget.image == null) {
-      _decoration = null;
-      return;
-    }
-
-    // If we previously had an image and it changed
-    // clear the decoration while the new one is loading...
-    if (oldWidget.image != null && widget.image != null) {
-      _decoration = null;
-    }
-
-    widget.image?.then(_setDecorationImage);
-  }
-
-  void _setDecorationImage(ImageProvider image) => setState(() {
-        _decoration = DecorationImage(image: image, fit: BoxFit.cover);
+    if (widget.weather == null) {
+      // If the new weather future is null, clear the image
+      _asset = null;
+    } else {
+      // Wait for the image to load and ...
+      widget.weather!.then((weather) {
+        // ... if the image is different ...
+        if (weather.type.backgroundImage != _asset) {
+          setState(() {
+            // ... update the Image
+            _asset = weather.type.backgroundImage;
+          });
+        }
       });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-        duration: widget.duration,
-        curve: Curves.easeInOut,
-        decoration: BoxDecoration(
-          image: _decoration,
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: widget.blur,
-            sigmaY: widget.blur,
-          ),
-          child: Container(),
-        ));
+    return AnimatedSwitcher(
+      duration: widget.duration,
+      child: _asset != null
+          ? SizedBox.expand(
+              key: ValueKey(_asset),
+              child: Image.asset(_asset!, fit: BoxFit.cover),
+            )
+          : null,
+    );
   }
 }

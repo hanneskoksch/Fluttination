@@ -24,10 +24,7 @@ class _WeatherAppState extends State<WeatherApp> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            AnimatedBackgroundImage(
-              image: _weather
-                  ?.then((weather) => AssetImage(weather.type.backgroundImage)),
-            ),
+            AnimatedBackgroundImage(weather: _weather),
             Align(
               // Centered & Top - 10% Viewport
               alignment: const Alignment(0.0, -0.9),
@@ -42,18 +39,18 @@ class _WeatherAppState extends State<WeatherApp> {
                 future: _weather,
                 builder: (context, snapshot) =>
                     switch (snapshot.connectionState) {
-                  // Loading
+                  // Weather is loading
                   ConnectionState.waiting => const Card(
                       child: Padding(
                         padding: EdgeInsets.all(32),
                         child: CircularProgressIndicator.adaptive(),
                       ),
                     ),
-                  // Data has loaded
+                  // Weather has loaded
                   ConnectionState.done => WeatherCard(
                       weather: snapshot.requireData,
                     ),
-                  // No Future or Error
+                  // Weather is not set or has an error
                   _ => const SizedBox.shrink(),
                 },
               ),
