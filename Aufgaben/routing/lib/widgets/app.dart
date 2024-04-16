@@ -55,8 +55,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<Weather>? _weather;
 
   @override
+  void didUpdateWidget(covariant HomeScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.lat != oldWidget.lat || widget.long != oldWidget.long) {
+      getWeather();
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
+    getWeather();
+  }
+
+  void getWeather() {
     if (widget.lat != null && widget.long != null) {
       _weather = Api.getWeatherWithCoordinates(widget.lat!, widget.long!);
     }
@@ -77,9 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
             // Centered & Top - 10% Viewport
             alignment: const Alignment(0.0, -0.9),
             child: GeoLocationSearchBar(onLocationSelected: (location) {
-              setState(() {
-                _weather = location != null ? Api.getWeather(location) : null;
-              });
+              if (location != null) {
+                context.go(
+                    "/?lat=${location.latitude}&long=${location.longitude}");
+              }
             }),
           ),
           Center(

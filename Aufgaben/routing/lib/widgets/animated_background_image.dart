@@ -23,6 +23,15 @@ class _AnimatedWeatherBackgroundState extends State<AnimatedBackgroundImage> {
   DecorationImage? _decoration;
 
   @override
+  void initState() {
+    if (widget.image != null) {
+      widget.image?.then(_setDecorationImage);
+    }
+
+    super.initState();
+  }
+
+  @override
   void didUpdateWidget(covariant AnimatedBackgroundImage oldWidget) {
     super.didUpdateWidget(oldWidget);
     // If we previously had an image but it changed to null,
@@ -38,15 +47,12 @@ class _AnimatedWeatherBackgroundState extends State<AnimatedBackgroundImage> {
       _decoration = null;
     }
 
-    widget.image?.then(
-      (image) => setState(() {
-        _decoration = DecorationImage(
-          image: image,
-          fit: BoxFit.cover,
-        );
-      }),
-    );
+    widget.image?.then(_setDecorationImage);
   }
+
+  void _setDecorationImage(ImageProvider image) => setState(() {
+        _decoration = DecorationImage(image: image, fit: BoxFit.cover);
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +67,7 @@ class _AnimatedWeatherBackgroundState extends State<AnimatedBackgroundImage> {
             sigmaX: widget.blur,
             sigmaY: widget.blur,
           ),
+          child: Container(),
         ));
   }
 }
